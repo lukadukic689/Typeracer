@@ -11,7 +11,7 @@
 
 
 //function which reads a .txt file, and what it contains is assigned to a string
-void fillArrayWithText(char* path) {
+int fillArrayWithText(char* path) { //returns if its possible to read a file (prevents crashes)
 	FILE* fp;
 	char letter;
 	int i = 0;
@@ -27,6 +27,9 @@ void fillArrayWithText(char* path) {
 	i = 0;
 
 	long int size = findSize(realPath);
+	if (size == 0) {
+		return 0;
+	}
 
 	text = NULL;
 	text = memoryAlloc(size + 1);
@@ -50,6 +53,7 @@ void fillArrayWithText(char* path) {
 	fclose(fp);
 	free(realPath);
 	realPath = NULL;
+	return 1;
 }
 
 
@@ -68,12 +72,17 @@ void newCurrentPath(char* path) {
 
 //function returns the size of bytes of a file (path) when called
 long int findSize(char* path) {
-
+	char letter;
 	FILE* fp = fopen(path, "r");
 
 	if (fp == NULL) {
-		printf("File Not Found!\n");
-		return -1;
+		printf("Tekst nije pronaden! Molim te izaberi neki od dostupnih tekstova u meniju.\n");
+		printf("\nPritisni SPACE za nastavak.");
+		do {
+			letter = _getch();
+		} while (letter != 32);
+
+		return 0;
 	}
 
 	fseek(fp, 0L, SEEK_END);

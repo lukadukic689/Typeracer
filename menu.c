@@ -26,7 +26,7 @@ enum options {
 
 
 void menu(char* path, char* username) {
-    int size;
+    int size, fileExists;
     char letter;
     int bool = 0;
     int textOption = -1;
@@ -63,38 +63,41 @@ void menu(char* path, char* username) {
         case PLAY:
             system("cls");
             if (bool == 0) { //bugfix
-                fillArrayWithText(path);
+                fileExists = fillArrayWithText(path);
             }
-            bool = 1;
-            size = findSize(path);
+            if (fileExists) {
+                bool = 1;
+                size = findSize(path);
 
-            unsolvedText = NULL;
-            unsolvedText = memoryAlloc(size + 1);
-            correctText = NULL;
-            correctText = memoryAlloc(size + 1);
-            wrongText = NULL;
-            wrongText = memoryAlloc(size + 1);
+                unsolvedText = NULL;
+                unsolvedText = memoryAlloc(size + 1);
+                correctText = NULL;
+                correctText = memoryAlloc(size + 1);
+                wrongText = NULL;
+                wrongText = memoryAlloc(size + 1);
 
-            oldWPM = getWPM(username);
+                oldWPM = getWPM(username);
+
+
+                /*if (oldWPM > 0) {
+                    printf("\n\nKORISNIK %s Vec je igro i rekord mu je %f WPM", username, oldWPM);
+                    scanf("%i", &size);
+                }*/
+
+
+                strcpy(unsolvedText, text);
+
+
+                wpm = cmdControl(text, unsolvedText, correctText, wrongText, size + 1, oldWPM, username);
+
+                free(unsolvedText);
+                unsolvedText = NULL;
+                free(correctText);
+                correctText = NULL;
+                free(wrongText);
+                wrongText = NULL;
+            }
             
-
-            /*if (oldWPM > 0) {
-                printf("\n\nKORISNIK %s Vec je igro i rekord mu je %f WPM", username, oldWPM);
-                scanf("%i", &size);
-            }*/
-            
-
-            strcpy(unsolvedText, text);
-            
-
-            wpm = cmdControl(text, unsolvedText, correctText, wrongText, size + 1, oldWPM, username);
-            
-            free(unsolvedText);
-            unsolvedText = NULL;
-            free(correctText);
-            correctText = NULL;
-            free(wrongText);
-            wrongText = NULL;
             break;
 
 

@@ -1,7 +1,7 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
-void fillArrayWithText(char*);
+int fillArrayWithText(char*);
 void printColoredText(const char*);
 char* memoryAlloc(int);
 long int findSize(const char* path);
